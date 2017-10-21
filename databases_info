@@ -1,0 +1,593 @@
+1. 菜单表属性
+MySQL [coolroid]> desc menu_item;
++--------------------+--------------+------+-----+---------+-------+
+| Field              | Type         | Null | Key | Default | Extra |
++--------------------+--------------+------+-----+---------+-------+
+| item_id            | int(11)      | NO   | PRI | NULL    |       |
+| item_name1         | varchar(60)  | YES  |     | NULL    |       |
+| item_name2         | varchar(60)  | YES  |     | NULL    |       |
+| icon               | varchar(512) | YES  |     | NULL    |       |
+| slu_id             | int(11)      | YES  |     | NULL    |       |
+| nlu                | varchar(20)  | YES  |     | NULL    |       |
+| class_id           | int(11)      | YES  |     | NULL    |       |
+| print_class        | int(11)      | YES  |     | NULL    |       |
+| item_type          | int(11)      | YES  |     | 0       |       |
+| allow_condiment    | int(11)      | YES  |     | NULL    |       |
+| required_condiment | int(11)      | YES  |     | 0       |       |
+| check_availability | bit(1)       | YES  |     | NULL    |       |
+| no_access_mgr      | bit(1)       | YES  |     | NULL    |       |
+| major_group        | int(11)      | YES  |     | NULL    |       |
+| family_group       | int(11)      | YES  |     | NULL    |       |
+| price_1            | float        | YES  |     | 0       |       |
+| cost_1             | float        | YES  |     | 0       |       |
+| unit_1             | varchar(30)  | YES  |     |         |       |
+| date_from_1        | date         | YES  |     | NULL    |       |
+| date_to_1          | date         | YES  |     | NULL    |       |
+| surcharge_1        | float        | YES  |     | 0       |       |
+| tare_weight_1      | float        | YES  |     | 0       |       |
+| price_2            | float        | YES  |     | 0       |       |
+| cost_2             | float        | YES  |     | 0       |       |
+| unit_2             | varchar(30)  | YES  |     |         |       |
+| date_from_2        | date         | YES  |     | NULL    |       |
+| date_to_2          | date         | YES  |     | NULL    |       |
+| surcharge_2        | float        | YES  |     | 0       |       |
+| tare_weight_2      | float        | YES  |     | 0       |       |
+| price_3            | float        | YES  |     | 0       |       |
+| cost_3             | float        | YES  |     | 0       |       |
+| unit_3             | varchar(30)  | YES  |     |         |       |
+| date_from_3        | date         | YES  |     | NULL    |       |
+| date_to_3          | date         | YES  |     | NULL    |       |
+| surcharge_3        | float        | YES  |     | 0       |       |
+| tare_weight_3      | float        | YES  |     | 0       |       |
+| price_4            | float        | YES  |     | 0       |       |
+| cost_4             | float        | YES  |     | 0       |       |
+| unit_4             | varchar(30)  | YES  |     |         |       |
+| date_from_4        | date         | YES  |     | NULL    |       |
+| date_to_4          | date         | YES  |     | NULL    |       |
+| surcharge_4        | float        | YES  |     | 0       |       |
+| tare_weight_4      | float        | YES  |     | 0       |       |
+| price_5            | float        | YES  |     | 0       |       |
+| cost_5             | float        | YES  |     | 0       |       |
+| unit_5             | varchar(30)  | YES  |     |         |       |
+| date_from_5        | date         | YES  |     | NULL    |       |
+| date_to_5          | date         | YES  |     | NULL    |       |
+| surcharge_5        | float        | YES  |     | 0       |       |
+| tare_weight_5      | float        | YES  |     | NULL    |       |
+| slu_priority       | int(11)      | YES  |     | 0       |       |
+| period_class_id    | int(11)      | YES  |     | 0       |       |
+| rvc_class_id       | int(11)      | YES  |     | 0       |       |
+| commission_type    | int(11)      | YES  |     | 0       |       |
+| commission_value   | float        | YES  |     | 0       |       |
+| ticket_class       | int(11)      | YES  |     | 1       |       |
+| tax_group          | int(11)      | YES  |     | -1      |       |
+| is_time_price      | tinyint(4)   | YES  |     | 0       |       |
+| price_per_minute   | int(11)      | YES  |     | 60      |       |
++--------------------+--------------+------+-----+---------+-------+
+59 rows in set (0.04 sec)
+
+2. 菜单内容
+MySQL [coolroid]> select item_id, item_name1, unit_1, unit_2, unit_3, unit_4, unit_5 from menu_item;
++---------+---------------------------+-------------------+--------------+-------------+------------+--------+
+| item_id | item_name1                | unit_1            | unit_2       | unit_3      | unit_4     | unit_5 |
++---------+---------------------------+-------------------+--------------+-------------+------------+--------+
+|    1000 | Gyoza                     |                   |              |             |            |        |
+|    1001 | Edamame                   |                   |              |             |            |        |
+|    1002 | Agedashi Tofu             |                   |              |             |            |        |
+|    1003 | Karaage                   |                   |              |             |            |        |
+|    1004 | Assorted Tempura          |                   |              |             |            |        |
+|    1005 | Shrimp Tempura            |                   |              |             |            |        |
+|    1006 | Chicken Katsu Don         |                   |              |             |            |        |
+|    1007 | Tonkatsu Don              |                   |              |             |            |        |
+|    1008 | Salmon Katsu Don          |                   |              |             |            |        |
+|    1009 | Chicken Katsu Curry       |                   |              |             |            |        |
+|    1010 | Classic Ramen             | Pork              | Shoyu        | Miso        |            |        |
+|    1011 | Soft Shell Crab           |                   |              |             |            |        |
+|    1012 | Chashu                    |                   |              |             |            |        |
+|    1013 | Tonkatsu                  |                   |              |             |            |        |
+|    1014 | Chicken Katsu             |                   |              |             |            |        |
+|    1015 | Salmon Katsu              |                   |              |             |            |        |
+|    1016 | Shrimp Tempura            |                   |              |             |            |        |
+|    1017 | Fried Garlic              |                   |              |             |            |        |
+|    1018 | Flavored Egg              |                   |              |             |            |        |
+|    1019 | Kikurage Mushroom         |                   |              |             |            |        |
+|    1020 | Seaweed Salad             |                   |              |             |            |        |
+|    1021 | Quail Eggs                |                   |              |             |            |        |
+|    1022 | Kimchi                    |                   |              |             |            |        |
+|    1023 | Corn                      |                   |              |             |            |        |
+|    1024 | Extra Noodles             |                   |              |             |            |        |
+|    1025 | Steam Rice                |                   |              |             |            |        |
+|    1026 | Coke(Mexico)              |                   |              |             |            |        |
+|    1027 | Coke                      | Coke              | Diet Coke    |             |            |        |
+|    1028 | Sprite                    |                   |              |             |            |        |
+|    1029 | Ramune                    | Original          | Strawberry   | Melon       |            |        |
+|    1030 | Sparkling Water           |                   |              |             |            |        |
+|    1031 | Mochi Ice Cream           | Green Tea         | Vanilla      | Strawberry  |            |        |
+|    1032 | Beer Jelly                |                   |              |             |            |        |
+|    1033 | Gyoza                     |                   |              |             |            |        |
+|    1034 | Edamame                   |                   |              |             |            |        |
+|    1035 | Agedashi Tofu             |                   |              |             |            |        |
+|    1036 | Karaage                   |                   |              |             |            |        |
+|    1037 | Assorted Tempura          |                   |              |             |            |        |
+|    1038 | Shrimp Tempura            |                   |              |             |            |        |
+|    1039 | Chicken Katsu Don         |                   |              |             |            |        |
+|    1040 | Tonkatsu Don              |                   |              |             |            |        |
+|    1041 | Salmon Katsu Don          |                   |              |             |            |        |
+|    1042 | Salmon Katsu Don          |                   |              |             |            |        |
+|    1043 | Unagi                     |                   |              |             |            |        |
+|    1044 | Classic Ramen             | Pork              | Shoyu        | Miso        |            |        |
+|    1045 | Soft Shell Crab           |                   |              |             |            |        |
+|    1046 | Chashu                    |                   |              |             |            |        |
+|    1047 | Tonkatsu                  |                   |              |             |            |        |
+|    1048 | Chicken Katsu             |                   |              |             |            |        |
+|    1049 | Salmon Katsu              |                   |              |             |            |        |
+|    1050 | Shrimp Tempura            |                   |              |             |            |        |
+|    1051 | Fried Garlic              |                   |              |             |            |        |
+|    1052 | Flavored Egg              |                   |              |             |            |        |
+|    1053 | Kikurage Mushroom         |                   |              |             |            |        |
+|    1054 | Seaweed Salad             |                   |              |             |            |        |
+|    1055 | Quail Eggs                |                   |              |             |            |        |
+|    1056 | Kimchi                    |                   |              |             |            |        |
+|    1057 | Corn                      |                   |              |             |            |        |
+|    1058 | Extra Noodles             |                   |              |             |            |        |
+|    1059 | Steam Rice                |                   |              |             |            |        |
+|    1060 | Coke (Mexico)             |                   |              |             |            |        |
+|    1061 | Coke                      | Coke              | Dite Coke    |             |            |        |
+|    1062 | Sprite                    |                   |              |             |            |        |
+|    1063 | Ramune                    | Original          | Strawberry   | Melon       |            |        |
+|    1064 | Sparkling Water           |                   |              |             |            |        |
+|    1065 | Mochi Ice Cream           | Green Tea         | Vanilla      | Strawberry  |            |        |
+|    6000 | No Fat                    |                   |              |             |            |        |
+|    6001 | Fat                       |                   |              |             |            |        |
+|    6002 | Extra Fat                 |                   |              |             |            |        |
+|    6003 | NO Bamboo筍               |                   |              |             |            |        |
+|    6004 | NO Mushroom木             |                   |              |             |            |        |
+|    6005 | NO Egg蛋                  |                   |              |             |            |        |
+|    6006 | NO Pork豬                 |                   |              |             |            |        |
+|    6007 | NO Onion蔥                |                   |              |             |            |        |
+|    6008 | NO Seaweed紫              |                   |              |             |            |        |
+|    6009 | Mild Spicy 加辣+1         |                   |              |             |            |        |
+|    6010 | Medium Spicy 加辣+2       |                   |              |             |            |        |
+|    6011 | Eggplant Agebitashi       |                   |              |             |            |        |
+|    6012 | Chicken Broth             | Shoyu             | Miso         | Kio Special | Hell Spicy | CURRY  |
+|    6013 | Vegetarian Broth          | Shoyu             | Miso         | Kio         | Hell       | CURRY  |
+|    6014 | Eggplant Agebitashi       |                   |              |             |            |        |
+|    6015 | Chicken Broth             | Shoyu             | Miso         | KIO         | CURRY      | Hell   |
+|    6016 | Vegetarian Broth          | Shoyu             | Miso         | Kio         | Hell       | Curry  |
+|    6017 | NO Spinach波              |                   |              |             |            |        |
+|    6018 | Extra Spicy 加辣+3        |                   |              |             |            |        |
+|    6019 | House Specialty_1         | KIO               | HELL         | TSUKE       | CURRY      |        |
+|    6020 | Roasted Pork Rice         |                   |              |             |            |        |
+|    6021 | Sprouts                   |                   |              |             |            |        |
+|    6022 | Garlic Miso Chicken Wings |                   |              |             |            |        |
+|    6023 | Jumbo Unagi Don           |                   |              |             |            |        |
+|    6024 | Garlic Miso Chicken Wings |                   |              |             |            |        |
+|    6025 | Jumbo Unagi Don           |                   |              |             |            |        |
+|    6026 | House Specialty_1         | KIO               | HELL         | TSUKE       | CURRY      |        |
+|    6027 | Sprouts                   |                   |              |             |            |        |
+|    6028 | Roasted Pork Rice         |                   |              |             |            |        |
+|    6029 | pork on side 豬放旁邊     |                   |              |             |            |        |
+|    6030 | Egg on side 蛋放旁邊      |                   |              |             |            |        |
+|    6031 | less sodium減咸           |                   |              |             |            |        |
+|    6032 | NO Tofu 豆腐              |                   |              |             |            |        |
+|    6033 | Chicken Broth 雞湯        |                   |              |             |            |        |
+|    6034 | VEG Broth 昆布湯          |                   |              |             |            |        |
+|    6035 | Soft-Shell Carb Tempura   |                   |              |             |            |        |
+|    6036 | Vegetable Tempura         |                   |              |             |            |        |
+|    6038 | Seaweed Salad             |                   |              |             |            |        |
+|    6039 | Garden Salad              |                   |              |             |            |        |
+|    6040 | Bento Box 2 item          |                   |              |             |            |        |
+|    6041 | Chicken Katsu             |                   |              |             |            |        |
+|    6042 | Chicken Teriyaki          |                   |              |             |            |        |
+|    6043 | Salmon Katsu              |                   |              |             |            |        |
+|    6044 | Chicken Karaage           |                   |              |             |            |        |
+|    6045 | Gyoza                     |                   |              |             |            |        |
+|    6046 | Shrimp Tempura            |                   |              |             |            |        |
+|    6047 | Assorted Tempura          |                   |              |             |            |        |
+|    6048 | Vegetable Tempura         |                   |              |             |            |        |
+|    6049 | Agedashi Tofu             |                   |              |             |            |        |
+|    6050 | Agedashi Eggplan          |                   |              |             |            |        |
+|    6051 | Ozeki Hot Sake            |                   |              |             |            |        |
+|    6052 | Sapporo Beer              |                   |              |             |            |        |
+|    6053 | Asahi Beer                |                   |              |             |            |        |
+|    6054 | Corona Beer               |                   |              |             |            |        |
+|    6055 | Soft-Shell Crab Tempura   |                   |              |             |            |        |
+|    6056 | Vegetable Tempura         |                   |              |             |            |        |
+|    6057 | Tako Karaage              |                   |              |             |            |        |
+|    6058 | Seaweed Salad             |                   |              |             |            |        |
+|    6059 | Salmon Salad              |                   |              |             |            |        |
+|    6060 | Benton Box 2 items        |                   |              |             |            |        |
+|    6061 | Chicken Katsu             |                   |              |             |            |        |
+|    6062 | Calamari Teriyaki         |                   |              |             |            |        |
+|    6063 | Salmon Katsu              |                   |              |             |            |        |
+|    6064 | $1                        |                   |              |             |            |        |
+|    6065 | Less Sodium少咸           |                   |              |             |            |        |
+|    6066 | -1 Spicy 減辣             |                   |              |             |            |        |
+|    6067 | NO fish cake 魚板         |                   |              |             |            |        |
+|    6071 | Lunch Special             |                   |              |             |            |        |
+|    6072 | Lunch Special             |                   |              |             |            |        |
+|    6073 | Yaegaki Hot Sake          | Large             | Small        |             |            |        |
+|    6074 | Sapporo Beer              |                   |              |             |            |        |
+|    6075 | Asahi Beer                |                   |              |             |            |        |
+|    6076 | Corona Beer               |                   |              |             |            |        |
+|    6077 | Salmon Add $1             |                   |              |             |            |        |
+|    6078 | Salmon Add $1             |                   |              |             |            |        |
+|    6079 | Miso soup                 |                   |              |             |            |        |
+|    6080 | Miso soup                 |                   |              |             |            |        |
+|    6081 | Chicken Skewers           |                   |              |             |            |        |
+|    6082 | Grilled Squid             |                   |              |             |            |        |
+|    6083 | Chicken_T Teriyaki        |                   |              |             |            |        |
+|    6084 | Chicken Katsu Curry       |                   |              |             |            |        |
+|    6085 | Salmon_T Teriyaki         |                   |              |             |            |        |
+|    6086 | Ton Katsu Curry           |                   |              |             |            |        |
+|    6087 | Grilled Squid             |                   |              |             |            |        |
+|    6088 | Calamari Teriyaki         |                   |              |             |            |        |
+|    6089 | Salmon Teriyaki           |                   |              |             |            |        |
+|    6090 | Chicken Skewers           |                   |              |             |            |        |
+|    6091 | Ton Katsu Curry           |                   |              |             |            |        |
+|    6092 | Chicken Katsu Curry       |                   |              |             |            |        |
+|    6093 | Unagi Don                 |                   |              |             |            |        |
+|    6094 | Lemonade                  |                   |              |             |            |        |
+|    6095 | Apple Juice               |                   |              |             |            |        |
+|    6096 | Orange Juice              |                   |              |             |            |        |
+|    6097 | Iced Coffee               |                   |              |             |            |        |
+|    6098 | Bamboo Shoots             |                   |              |             |            |        |
+|    6099 | Bamboo shoots             |                   |              |             |            |        |
+|    6100 | Seaweed                   |                   |              |             |            |        |
+|    6101 | Tuna Poke                 |                   |              |             |            |        |
+|    6102 | Salmon Poke               |                   |              |             |            |        |
+|    6103 | Mix Poke                  |                   |              |             |            |        |
+|    6104 | Plain Soba                |                   |              |             |            |        |
+|    6105 | Chicken Soba              |                   |              |             |            |        |
+|    6106 | Salmon Soba               |                   |              |             |            |        |
+|    6107 | Shrimp Tempura Soba       |                   |              |             |            |        |
+|    6108 | Vegetable Tempura Soba    |                   |              |             |            |        |
+|    6109 | Tuna Poke                 |                   |              |             |            |        |
+|    6110 | Salmon Poke               |                   |              |             |            |        |
+|    6111 | Mix Poke                  |                   |              |             |            |        |
+|    6112 | Plain Soba                |                   |              |             |            |        |
+|    6113 | Chicken Soba              |                   |              |             |            |        |
+|    6114 | Salmon Soba               |                   |              |             |            |        |
+|    6115 | Shrimp Tempura Soba       |                   |              |             |            |        |
+|    6116 | Vegetable Tempura Soba    |                   |              |             |            |        |
+|    6117 | Chicken Udon              | Shoyu Udon        | Miso Udon    | Shoyu Soba  | Shoyu Soba |        |
+|    6118 | Beef Udon                 | Shoyu Udon        | Miso Udon    | Shoyu Soba  | Miso Soba  |        |
+|    6119 | Tempura Udon              | Shoyu Udon        | Miso Udon    | Shoyu Soba  | Miso Soba  |        |
+|    6120 | Curry Beef Udon           | Udon              | Soba         |             |            |        |
+|    6121 | Vegetable Udon            | Udon              | Soba         |             |            |        |
+|    6122 | California Roll           |                   |              |             |            |        |
+|    6123 | Beef Teriyaki             |                   |              |             |            |        |
+|    6124 | Chichen Udon              | Shoyu Udon        | Miso Udon    | Shoyu Soba  | Miso Soba  |        |
+|    6125 | Beef Udon                 | Shoyu Udon        | Miso Udon    | Shoyu Soba  | Miso Soba  |        |
+|    6126 | Tempura Udon              | Shoyu Udon        | Miso Udon    | Shoyu Soba  | Miso Soba  |        |
+|    6127 | Curry Beef Udon           | Udon              | Soba         |             |            |        |
+|    6128 | Vegetable Udon            | Udon              | Soba         |             |            |        |
+|    6129 | Beef Teriyaki             |                   |              |             |            |        |
+|    6130 | California Roll           |                   |              |             |            |        |
+|    6131 | Lettuce                   |                   |              |             |            |        |
+|    6132 | Tako Karaage              |                   |              |             |            |        |
+|    6133 | Garden Salad              |                   |              |             |            |        |
+|    6134 | Tuna Salad                |                   |              |             |            |        |
+|    6135 | Mix Sashimi Salad         |                   |              |             |            |        |
+|    6136 | Salmon Salad              |                   |              |             |            |        |
+|    6137 | Tuna Salad                |                   |              |             |            |        |
+|    6138 | Mix Sashimi Salad         |                   |              |             |            |        |
+|    6139 | California Roll           |                   |              |             |            |        |
+|    6140 | Salmon Sashimi            | 5 pcs             | 10 pcs       |             |            |        |
+|    6141 | Tuna Sashimi              | 5 pcs             | 10 pcs       |             |            |        |
+|    6142 | Hamachi Sashimi           | 5 pcs             | 10 pcs       |             |            |        |
+|    6143 | Scallops Sashimi          | 5 pcs             | 10 pcs       |             |            |        |
+|    6144 | Octopus Sashimi           | 5 pcs             | 10 pcs       |             |            |        |
+|    6145 | Sashimi Combo             |                   |              |             |            |        |
+|    6146 | California Roll           |                   |              |             |            |        |
+|    6153 | Takoyaki                  |                   |              |             |            |        |
+|    6154 | Takoyaki                  |                   |              |             |            |        |
+|    6155 | gluten free ramen         |                   |              |             |            |        |
+|    6156 | gluten free ramen         |                   |              |             |            |        |
+|    6157 | Tamagoyaki                |                   |              |             |            |        |
+|    6158 | Tamagoyaki                |                   |              |             |            |        |
+|    6159 | House Specialty_2         | Spicy Garlic Pork | Lobster Pork |             |            |        |
+|    6160 | House Specialty_2         | Spicy Garlic Pork | Lobster Pork |             |            |        |
+|    6161 | Benton Box 3 items        |                   |              |             |            |        |
+|    6162 | Beef Teriyaki Don         |                   |              |             |            |        |
+|    6163 | Chicken Teriyaki Don      |                   |              |             |            |        |
+|    6164 | Salmon Teriyaki Don       |                   |              |             |            |        |
+|    6165 | Bento Box 3 item          |                   |              |             |            |        |
+|    6166 | Chicken Teriyaki Don      |                   |              |             |            |        |
+|    6167 | Beef Teriyaki Don         |                   |              |             |            |        |
+|    6168 | Salmon Teriyaki Don       |                   |              |             |            |        |
+|    6169 | Tuna Tataki               |                   |              |             |            |        |
+|    6170 | Hamachi Tataki            |                   |              |             |            |        |
+|    6171 | Flame Tuna Bowl           |                   |              |             |            |        |
+|    6172 | Flame Salmon Bowl         |                   |              |             |            |        |
+|    6173 | Flame Hamachi Bowl        |                   |              |             |            |        |
+|    6174 | Flame Mix Bowl            |                   |              |             |            |        |
+|    6175 | Salmon Sashimi Bowl       |                   |              |             |            |        |
+|    6176 | Tuna Sashimi Bowl         |                   |              |             |            |        |
+|    6177 | Hamachi Sashimi Bowl      |                   |              |             |            |        |
+|    6178 | Scallops Sashimi Bowl     |                   |              |             |            |        |
+|    6179 | Mix Sashimi Bowl          |                   |              |             |            |        |
+|    6180 | Salmon Sashimi Bowl       |                   |              |             |            |        |
+|    6181 | Tuna Sashimi Bowl         |                   |              |             |            |        |
+|    6182 | Hamachi Sashimi Bowl      |                   |              |             |            |        |
+|    6183 | Mix Sashimi Bowl          |                   |              |             |            |        |
+|    6184 | Scallops Sashimi Bowl     |                   |              |             |            |        |
+|    6185 | Flame Tuna Bowl           |                   |              |             |            |        |
+|    6186 | Flame Salmon Bowl         |                   |              |             |            |        |
+|    6187 | Flame Hamachi Bowl        |                   |              |             |            |        |
+|    6188 | Flame Mix Bowl            |                   |              |             |            |        |
+|    6189 | Salmon Sashimi            | 5 pcs             | 10 pcs       |             |            |        |
+|    6190 | Tuna Sashimi              | 5 pcs             | 10 pcs       |             |            |        |
+|    6191 | Hamachi Sashimi           | 5 pcs             | 10 pcs       |             |            |        |
+|    6192 | Scallops Sashimi          | 5 pcs             | 10 pcs       |             |            |        |
+|    6193 | Octopus Sashimi           | 5 pcs             | 10 pcs       |             |            |        |
+|    6194 | Sashimi Combo             |                   |              |             |            |        |
+|    6195 | Tuna Tataki               |                   |              |             |            |        |
+|    6196 | Hamachi Tataki            |                   |              |             |            |        |
+|    6197 | Ginjo Hana                |                   |              |             |            |        |
+|    6198 | Strawberry Nigori         |                   |              |             |            |        |
+|    6199 | Junmai Yuza               |                   |              |             |            |        |
+|    6200 | Coconuts Nigori           |                   |              |             |            |        |
+|    6201 | Ume Soda                  |                   |              |             |            |        |
+|    6202 | Yuzu Soda                 |                   |              |             |            |        |
+|    6203 | Tea & Water               |                   |              |             |            |        |
+|    6204 | Salmon Add $1             |                   |              |             |            |        |
+|    6205 | Salmon Add $1             |                   |              |             |            |        |
+|    6206 | Ume Soda                  |                   |              |             |            |        |
+|    6207 | Yuzu Soda                 |                   |              |             |            |        |
++---------+---------------------------+-------------------+--------------+-------------+------------+--------+
+
+3. 出菜表
+MySQL [coolroid]> desc history_order_detail;
++-----------------------+--------------+------+-----+---------+-------+
+| Field                 | Type         | Null | Key | Default | Extra |
++-----------------------+--------------+------+-----+---------+-------+
+| order_detail_id       | int(11)      | NO   | MUL | NULL    |       |
+| order_head_id         | int(11)      | YES  | MUL | NULL    |       |
+| check_id              | int(11)      | YES  |     | 1       |       |
+| menu_item_id          | int(11)      | YES  |     | 0       |       |
+| menu_item_name        | varchar(60)  | YES  |     |         |       |
+| product_price         | float        | YES  |     | 0       |       |
+| is_discount           | bit(1)       | YES  |     | b'0'    |       |
+| original_price        | float        | YES  |     | NULL    |       |
+| discount_id           | int(11)      | YES  |     | 0       |       |
+| actual_price          | float        | YES  |     | 0       |       |
+| is_return_item        | bit(1)       | YES  |     | b'0'    |       |
+| order_employee_id     | int(11)      | YES  |     | 0       |       |
+| order_employee_name   | varchar(30)  | YES  |     |         |       |
+| pos_device_id         | int(11)      | YES  |     | 0       |       |
+| pos_name              | varchar(30)  | YES  |     |         |       |
+| order_time            | datetime     | YES  |     | NULL    |       |
+| return_time           | datetime     | YES  |     | NULL    |       |
+| return_reason         | varchar(200) | YES  |     |         |       |
+| unit                  | varchar(30)  | YES  |     |         |       |
+| is_send               | bit(1)       | YES  |     | b'0'    |       |
+| condiment_belong_item | int(11)      | YES  | MUL | 0       |       |
+| quantity              | float        | YES  |     | 0       |       |
+| eat_type              | int(11)      | YES  |     | 1       |       |
+| auth_id               | int(11)      | YES  |     | NULL    |       |
+| auth_name             | varchar(40)  | YES  |     |         |       |
+| weight_entry_required | bit(1)       | YES  |     | NULL    |       |
+| description           | char(100)    | YES  |     | NULL    |       |
+| n_service_type        | int(11)      | YES  |     | NULL    |       |
+| not_print             | int(11)      | YES  |     | NULL    |       |
+| seat_num              | int(11)      | YES  |     | NULL    |       |
+| discount_price        | float        | YES  |     | NULL    |       |
+| sales_amount          | float        | YES  |     | NULL    |       |
+| is_make               | int(11)      | YES  | MUL | NULL    |       |
+| print_class           | int(11)      | YES  |     | NULL    |       |
+| rush                  | int(11)      | YES  |     | 0       |       |
+| ready_qty             | float        | YES  |     | NULL    |       |
+| end_time              | datetime     | YES  |     | NULL    |       |
++-----------------------+--------------+------+-----+---------+-------+
+
+例子：指定时间为2017-10-14
+
+MySQL [coolroid]> select * from history_order_detail where order_time between '2017-10-14' and '2017-10-15' limit 5;
++-----------------+---------------+----------+--------------+-------------------+---------------+-------------+----------------+-------------+--------------+----------------+-------------------+---------------------+---------------+----------+---------------------+-------------+---------------+-------+---------+-----------------------+----------+----------+---------+-----------+-----------------------+-------------+----------------+-----------+----------+----------------+--------------+---------+-------------+------+-----------+----------+
+| order_detail_id | order_head_id | check_id | menu_item_id | menu_item_name    | product_price | is_discount | original_price | discount_id | actual_price | is_return_item | order_employee_id | order_employee_name | pos_device_id | pos_name | order_time          | return_time | return_reason | unit  | is_send | condiment_belong_item | quantity | eat_type | auth_id | auth_name | weight_entry_required | description | n_service_type | not_print | seat_num | discount_price | sales_amount | is_make | print_class | rush | ready_qty | end_time |
++-----------------+---------------+----------+--------------+-------------------+---------------+-------------+----------------+-------------+--------------+----------------+-------------------+---------------------+---------------+----------+---------------------+-------------+---------------+-------+---------+-----------------------+----------+----------+---------+-----------+-----------------------+-------------+----------------+-----------+----------+----------------+--------------+---------+-------------+------+-----------+----------+
+|          137352 |    1508007316 |        1 |         6189 | Salmon Sashimi    |            12 |             |           NULL |           9 |           12 |                |                11 | Hill                |             1 | POS_1    | 2017-10-14 11:55:16 | NULL        | NULL          | 5 pcs |        |                     0 |        1 |        1 |       0 |           |                       | NULL        |              9 |         0 |        0 |              0 |           12 |       0 |           0 |    0 |      NULL | NULL     |
+|          137353 |    1508007316 |        1 |         6093 | Unagi Don         |         14.78 |             |           NULL |           9 |        14.78 |                |                11 | Hill                |             1 | POS_1    | 2017-10-14 11:55:16 | NULL        | NULL          | NULL  |        |                     0 |        1 |        1 |       0 |           |                       | NULL        |              9 |         0 |        0 |              0 |        14.78 |       0 |           0 |    0 |      NULL | NULL     |
+|          137354 |    1508007316 |        1 |         6128 | Vegetable Udon    |         11.95 |             |           NULL |           9 |        11.95 |                |                11 | Hill                |             1 | POS_1    | 2017-10-14 11:55:16 | NULL        | NULL          | Soba  |        |                     0 |        1 |        1 |       0 |           |                       | NULL        |              9 |         0 |        0 |              0 |        11.95 |       0 |           0 |    0 |      NULL | NULL     |
+|          137355 |    1508007316 |        1 |         6156 | gluten free ramen |             2 |             |           NULL |           9 |            2 |                |                11 | Hill                |             1 | POS_1    | 2017-10-14 11:55:16 | NULL        | NULL          | NULL  |        |                     0 |        1 |        1 |       0 |           |                       | NULL        |              9 |         0 |        0 |              0 |            2 |       0 |           0 |    0 |      NULL | NULL     |
+|          137356 |    1508007316 |        1 |         6040 | Bento Box 2 item  |         14.95 |             |           NULL |           9 |        14.95 |                |                11 | Hill                |             1 | POS_1    | 2017-10-14 11:55:16 | NULL        | NULL          | NULL  |        |                     0 |        1 |        1 |       0 |           |                       | NULL        |              9 |         0 |        0 |              0 |            0 |       0 |           0 |    0 |      NULL | NULL     |
++-----------------+---------------+----------+--------------+-------------------+---------------+-------------+----------------+-------------+--------------+----------------+-------------------+---------------------+---------------+----------+---------------------+-------------+---------------+-------+---------+-----------------------+----------+----------+---------+-----------+-----------------------+-------------+----------------+-----------+----------+----------------+--------------+---------+-------------+------+-----------+----------+
+例子：
+MySQL [coolroid]> select count(*), menu_item_name, unit, menu_item_id from history_order_detail where order_time between '2017-10-4' and '2017-10-11' and menu_item_id > 0 group by menu_item_name, unit order by menu_item_name;
++----------+---------------------------+-------------------+--------------+
+| count(*) | menu_item_name            | unit              | menu_item_id |
++----------+---------------------------+-------------------+--------------+
+|        9 | Agedashi Tofu             | NULL              |         1035 |
+|       19 | Asahi Beer                | NULL              |         6075 |
+|       22 | Assorted Tempura          | NULL              |         1037 |
+|        1 | Bamboo Shoots             | NULL              |         6098 |
+|       29 | Beef Teriyaki             | NULL              |         6123 |
+|        3 | Beef Teriyaki Don         | NULL              |         6162 |
+|        3 | Beef Udon                 | Miso Udon         |         6118 |
+|        2 | Beef Udon                 | Shoyu Udo         |         6125 |
+|        1 | Beef Udon                 | Shoyu Udon        |         6118 |
+|        9 | Bento Box 2 item          | NULL              |         6040 |
+|        1 | Bento Box 3 item          | NULL              |         6165 |
+|       19 | Benton Box 2 items        | NULL              |         6060 |
+|       10 | Benton Box 3 items        | NULL              |         6161 |
+|        3 | Calamari Teriyaki         | NULL              |         6062 |
+|       32 | California Roll           | NULL              |         6146 |
+|       13 | Chashu                    | NULL              |         1046 |
+|        1 | Chicken Broth             | CURRY             |         6015 |
+|       10 | Chicken Broth             | KIO               |         6015 |
+|       12 | Chicken Broth             | Miso              |         6015 |
+|        8 | Chicken Broth             | Shoyu             |         6015 |
+|       12 | Chicken Katsu             | NULL              |         6061 |
+|        5 | Chicken Katsu Curry       | NULL              |         6084 |
+|        2 | Chicken Soba              | NULL              |         6113 |
+|        8 | Chicken Teriyaki          | NULL              |         6042 |
+|        8 | Chicken Teriyaki Don      | NULL              |         6166 |
+|        6 | Chicken Udon              | Miso Udon         |         6117 |
+|        1 | Chicken Udon              | Shoyu Soba        |         6117 |
+|        1 | Chicken Udon              | Shoyu Udon        |         6117 |
+|        8 | Chicken_T Teriyaki        | NULL              |         6083 |
+|       27 | Classic Ramen             | Miso              |         1044 |
+|       73 | Classic Ramen             | Pork              |         1010 |
+|       17 | Classic Ramen             | Shoyu             |         1044 |
+|        2 | Coconuts Nigori           | NULL              |         6200 |
+|       15 | Coke                      | Coke              |         1061 |
+|        7 | Coke                      | Dite Coke         |         1061 |
+|        1 | Coke (Mexico)             | NULL              |         1060 |
+|       11 | Corn                      | NULL              |         1023 |
+|        3 | Curry Beef Udon           | Udon              |         6127 |
+|       16 | Edamame                   | NULL              |         1034 |
+|       13 | Extra Noodles             | NULL              |         1058 |
+|        1 | Flame Mix Bowl            | NULL              |         6174 |
+|        2 | Flame Salmon Bowl         | NULL              |         6172 |
+|       11 | Flavored Egg              | NULL              |         1018 |
+|        3 | Fried Garlic              | NULL              |         1051 |
+|        2 | Garden Salad              | NULL              |         6039 |
+|        5 | Garlic Miso Chicken Wings | NULL              |         6024 |
+|        7 | Ginjo Hana                | NULL              |         6197 |
+|        1 | gluten free ramen         | NULL              |         6155 |
+|       12 | Grilled Squid             | NULL              |         6082 |
+|       27 | Gyoza                     | NULL              |         1033 |
+|        2 | Gyoza                     | 4 Pieces          |         1000 |
+|        1 | Hamachi Sashimi           | 10 pcs            |         6142 |
+|        1 | Hamachi Sashimi Bowl      | NULL              |         6177 |
+|        2 | Hamachi Tataki            | NULL              |         6170 |
+|        7 | House Specialty_1         | CURRY             |         6019 |
+|        8 | House Specialty_1         | HELL              |         6026 |
+|       68 | House Specialty_1         | KIO               |         6019 |
+|       11 | House Specialty_1         | TSUKE             |         6026 |
+|        2 | House Specialty_2         | Lobster P         |         6160 |
+|       20 | House Specialty_2         | Lobster Pork      |         6159 |
+|       10 | House Specialty_2         | Spicy Gar         |         6160 |
+|       45 | House Specialty_2         | Spicy Garlic Pork |         6159 |
+|        6 | Jumbo Unagi Don           | NULL              |         6023 |
+|       26 | Karaage                   | NULL              |         1003 |
+|        1 | Kikurage Mushroom         | NULL              |         1019 |
+|        4 | Kimchi                    | NULL              |         1022 |
+|        4 | Lemonade                  | NULL              |         6094 |
+|       16 | Lunch Special             | NULL              |         6072 |
+|        2 | Miso soup                 | NULL              |         6079 |
+|       17 | Mix Poke                  | NULL              |         6111 |
+|        6 | Mix Sashimi Bowl          | NULL              |         6179 |
+|        3 | Mix Sashimi Salad         | NULL              |         6138 |
+|        1 | Mochi Ice Cream           | Green Tea         |         1031 |
+|        4 | Plain Soba                | NULL              |         6104 |
+|        4 | Quail Eggs                | NULL              |         1055 |
+|        2 | Ramune                    | Melon             |         1063 |
+|        1 | Ramune                    | Original          |         1063 |
+|        4 | Ramune                    | Strawberry        |         1063 |
+|        3 | Salmon Add $1             | NULL              |         6204 |
+|        5 | Salmon Poke               | NULL              |         6110 |
+|        2 | Salmon Salad              | NULL              |         6059 |
+|        1 | Salmon Sashimi            | 10 pcs            |         6140 |
+|        3 | Salmon Sashimi            | 5 pcs             |         6140 |
+|        1 | Salmon Sashimi Bowl       | NULL              |         6175 |
+|        3 | Salmon Soba               | NULL              |         6106 |
+|        1 | Salmon Teriyaki           | NULL              |         6089 |
+|        2 | Salmon Teriyaki Don       | NULL              |         6168 |
+|        5 | Salmon_T Teriyaki         | NULL              |         6085 |
+|       40 | Sapporo Beer              | NULL              |         6074 |
+|        3 | Sashimi Combo             | NULL              |         6145 |
+|        1 | Scallops Sashimi Bowl     | NULL              |         6184 |
+|       14 | Seaweed Salad             | NULL              |         6058 |
+|       18 | Shrimp Tempura            | NULL              |         1038 |
+|        6 | Shrimp Tempura Soba       | NULL              |         6107 |
+|        5 | Soft Shell Crab           | NULL              |         1045 |
+|        2 | Soft-Shell Carb Tempura   | NULL              |         6035 |
+|        7 | Soft-Shell Crab Tempura   | NULL              |         6055 |
+|       12 | Sprite                    | NULL              |         1062 |
+|        1 | Sprouts                   | NULL              |         6027 |
+|        4 | Steam Rice                | NULL              |         1059 |
+|        2 | Strawberry Nigori         | NULL              |         6198 |
+|        5 | Tako Karaage              | NULL              |         6057 |
+|       11 | Takoyaki                  | NULL              |         6154 |
+|        4 | Tamagoyaki                | NULL              |         6157 |
+|        3 | Tea & Water               | NULL              |         6203 |
+|        2 | Tempura Udon              | Miso Udon         |         6119 |
+|        1 | Tempura Udon              | Shoyu Sob         |         6119 |
+|        1 | Tempura Udon              | Shoyu Udo         |         6126 |
+|        3 | Tempura Udon              | Shoyu Udon        |         6119 |
+|        3 | Ton Katsu Curry           | NULL              |         6086 |
+|        9 | Tonkatsu                  | NULL              |         1047 |
+|        2 | Tuna Poke                 | NULL              |         6109 |
+|        2 | Tuna Salad                | NULL              |         6134 |
+|        4 | Tuna Sashimi              | 5 pcs             |         6141 |
+|        2 | Tuna Sashimi Bowl         | NULL              |         6181 |
+|        2 | Tuna Tataki               | NULL              |         6169 |
+|        6 | Ume Soda                  | NULL              |         6201 |
+|        5 | Unagi                     | NULL              |         1043 |
+|        2 | Unagi Don                 | NULL              |         6093 |
+|        9 | Vegetable Tempura         | NULL              |         6056 |
+|        4 | Vegetable Tempura Soba    | NULL              |         6108 |
+|        2 | Vegetable Udon            | Soba              |         6121 |
+|        9 | Vegetable Udon            | Udon              |         6121 |
+|        2 | Vegetarian Broth          | Curry             |         6016 |
+|       23 | Vegetarian Broth          | Kio               |         6013 |
+|       18 | Vegetarian Broth          | Miso              |         6013 |
+|        6 | Vegetarian Broth          | Shoyu             |         6013 |
+|       14 | Yaegaki Hot Sake          | Large             |         6073 |
+|        5 | Yaegaki Hot Sake          | Small             |         6073 |
+|        2 | Yuzu Soda                 | NULL              |         6202 |
++----------+---------------------------+-------------------+--------------+
+
+4. 需要收集的数据
+1061, 'Coke', 'Coke'
+1061, 'Coke', 'Dite Coke'
+1027, 'Coke', 'Coke'
+1027, 'Coke', 'Diet Coke'
+1060, 'Coke (Mexico)'
+1026, 'Coke(Mexico)'
+6094, 'Lemonade'
+1063, 'Ramune', 'Original'
+1063, 'Ramune', 'Strawberry'
+1063, 'Ramune', 'Melon'
+1062, 'Sprite'
+1028, 'Sprite'
+6074, 'Sapporo Beer'
+6202, 'Yuzu Soda'
+6201, 'Ume Soda'
+6075, 'Asahi Beer'
+6197, 'Ginjo Hana'
+6200, 'Coconuts Nigori'
+6199, 'Junmai Yuza'
+6198, 'Strawberry Nigori'
+
+6085, 'Salmon_T Teriyaki'
+6089, 'Salmon Teriyaki'
+6164, 'Salmon Teriyaki Don'
+6168, 'Salmon Teriyaki Don'
+6104, 'Plain Soba'
+6112, 'Plain Soba'
+6106, 'Salmon Soba'
+6114, 'Salmon Soba'
+6113, 'Chicken Soba'
+1043, 'Unagi'
+6023, 'Jumbo Unagi Don'
+6025, 'Jumbo Unagi Don'
+6124, 'Chichen Udon', 'Shoyu Udo'
+6117, 'Chicken Udon'
+6120, 'Curry Beef Udon', 'Udon'
+6119, 'Tempura Udon', 'Shoyu Udon'
+6126, 'Tempura Udon', 'Shoyu Udo'
+6155, 'gluten free ramen'
+6156, 'gluten free ramen'
+1033, 'Gyoza'
+1000, 'Gyoza'
+
+5.表设计
+CREATE TABLE `menu` (
+  `mid` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `menu_item_name` varchar(60) NOT NULL,
+  `unit` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`mid`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `inventory` (
+  `in_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `inventory` int(3) unsigned zerofill NOT NULL,
+  `mid` tinyint(3) unsigned NOT NULL,
+  `item` varchar(30) NOT NULL,
+  `u_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`in_id`),
+  KEY `inventory_mid_fk` (`mid`),
+  CONSTRAINT `inventory_mid_fk` FOREIGN KEY (`mid`) REFERENCES `menu` (`mid`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;

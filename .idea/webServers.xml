@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="sftp://pi@acalf.lorexddns.net:22/usr/bin/python3" name="KIO" url="http://acalf.lorexddns.net">
+        <fileTransfer host="acalf.lorexddns.net" port="22" rootFolder="/home/pi" accessType="SFTP">
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
