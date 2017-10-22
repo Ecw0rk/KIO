@@ -36,9 +36,26 @@ def getItem():
                                  db='inventory')
     try:
         with conn.cursor() as cursor:
-            # sql = "select menu_item_name, unit from menu"
-            sql = "select menu_item_name, unit, inventory, mid from menu join inventory on menu.in_id = inventory.in_id"
+            sql = "select mid, menu_item_name, unit, in_id from menu"
+            # sql = "select menu_item_name, unit, inventory, mid from menu join inventory on menu.in_id = inventory.in_id"
             cursor.execute(sql)
+            result = cursor.fetchall()
+            return result
+    except ConnectionError:
+        print("Error to connect databases")
+    finally:
+        conn.close()
+
+def searchInventory(in_id):
+    # 这个模块输入in_id获取inventory
+    conn = pymysql.connect(host='localhost',
+                                 user='admin',
+                                 password='eric20000',
+                                 db='inventory')
+    try:
+        with conn.cursor() as cursor:
+            sql = "select inventory from inventory where in_id = %s"
+            cursor.execute(sql, (in_id))
             result = cursor.fetchall()
             return result
     except ConnectionError:
@@ -58,8 +75,9 @@ def countItems(menu_item_name, unit):
     if unit != None:    # compare if unit equal None
         try:
             with conn.cursor() as cursor:
-                sql = "select count(*), menu_item_name, unit from history_order_detail where menu_item_name = %s and unit = %s" \
-                      "and order_time between %s and %s"
+                # sql = "select count(*), menu_item_name, unit from history_order_detail where menu_item_name = %s and unit = %s" \
+                #       "and order_time between %s and %s"
+                sql = "select count(*) from history_order_detail where menu_item_name = %s and unit = %s and order_time between %s and %s"
                 cursor.execute(sql, (menu_item_name, unit, day1, day2))
                 result = cursor.fetchall()
                 return result
@@ -70,7 +88,9 @@ def countItems(menu_item_name, unit):
     else:
         try:
             with conn.cursor() as cursor:
-                sql = "select count(*), menu_item_name, unit from history_order_detail where menu_item_name = %s" \
+                # sql = "select count(*), menu_item_name, unit from history_order_detail where menu_item_name = %s" \
+                #       "and order_time between %s and %s"
+                sql = "select count(*) from history_order_detail where menu_item_name = %s" \
                       "and order_time between %s and %s"
                 cursor.execute(sql, (menu_item_name, day1, day2))
                 result = cursor.fetchall()
@@ -87,25 +107,26 @@ def cal():
                                  password='eric20000',
                                  db='inventory')
     items = getItem()
-    for menu_item_name, unit, inventory, mid in items:
-        # print(menu_item_name, unit, type(inventory), type(mid))
-        countResult = countItems(menu_item_name, unit)
-        for weekSold, itemName, itemUnit in countResult:
-            inventory = inventory - weekSold
-            if weekSold != 0:
-                if unit == None:
-                    msg.append('%s sold: %d remain %d' % (menu_item_name, weekSold, inventory))
-                else:
-                    msg.append('%s %s sold: %d remain %d' % (menu_item_name, unit, weekSold, inventory))
+    number = 0
+    for mid, menu_item_name, unit, in_id in items:
+        number += 1
+        inventory = searchInventory(in_id)[0][0]
+        weeksold = countItems(menu_item_name, unit)[0][0]
+        inventory = inventory - weeksold
+        if weeksold != 0:
+            if unit == None:
+                msg.append('%d %s sold %d remain %d' % (number, menu_item_name, weeksold, inventory))
             else:
-                if unit == None:
-                    msg.append('%s sold: %d remain %d' % (menu_item_name, weekSold, inventory))
-                else:
-                    msg.append('%s %s sold: %d remain %d' % (menu_item_name, unit, weekSold, inventory))
-        # with conn.cursor() as cursor:
-        #     sql = "update inventory join menu on inventory.in_id = menu.in_id set inventory=%s where menu.mid = %s"
-        #     cursor.execute(sql, (inventory, mid))
-            # conn.commit()
+                msg.append('%d %s %s sold %d remain %d' % (number, menu_item_name, unit, weeksold, inventory))
+        else:
+            if unit == None:
+                msg.append('%d %s sold %d remain %d' % (number, menu_item_name, weeksold, inventory))
+            else:
+                msg.append('%d %s %s sold %d remain %d' % (number, menu_item_name, unit, weeksold, inventory))
+        with conn.cursor() as cursor:
+            sql = "update inventory join menu on inventory.in_id = menu.in_id set inventory=%s where menu.mid = %s"
+            cursor.execute(sql, (inventory, mid))
+            conn.commit()
     message = '\n'.join(msg)
     return message
     conn.close()
