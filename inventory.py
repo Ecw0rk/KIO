@@ -36,7 +36,7 @@ def getItem():
                                  db='inventory')
     try:
         with conn.cursor() as cursor:
-            sql = "select mid, menu_item_name, unit, in_id from menu"
+            sql = "select mid, menu_item_name, unit, in_id, show_remain from menu"
             # sql = "select menu_item_name, unit, inventory, mid from menu join inventory on menu.in_id = inventory.in_id"
             cursor.execute(sql)
             result = cursor.fetchall()
@@ -107,52 +107,44 @@ def cal():
                                  password='eric20000',
                                  db='inventory')
     items = getItem()
-    number = 0
-    for mid, menu_item_name, unit, in_id in items:
-        number += 1
+    for mid, menu_item_name, unit, in_id, show_remain in items:
         inventory = searchInventory(in_id)[0][0]
         weeksold = countItems(menu_item_name, unit)[0][0]
         inventory = inventory - weeksold
-        if weeksold != 0:
-            if unit == None:
-                msg.append('%d %s sold %d remain %d' % (number, menu_item_name, weeksold, inventory))
+        if show_remain == 1:    # if show_remain equal 1, will show inventory.
+            if weeksold != 0:
+                if unit == None:
+                    msg.append('%s sold %d remain %d' % (menu_item_name, weeksold, inventory))
+                else:
+                    msg.append('%s %s sold %d remain %d' % ( menu_item_name, unit, weeksold, inventory))
             else:
-                msg.append('%d %s %s sold %d remain %d' % (number, menu_item_name, unit, weeksold, inventory))
+                if unit == None:
+                    msg.append('%s sold %d remain %d' % ( menu_item_name, weeksold, inventory))
+                else:
+                    msg.append('%s %s sold %d remain %d' % (menu_item_name, unit, weeksold, inventory))
         else:
-            if unit == None:
-                msg.append('%d %s sold %d remain %d' % (number, menu_item_name, weeksold, inventory))
+            if weeksold != 0:
+                if unit == None:
+                    msg.append('%s sold %d' % (menu_item_name, weeksold))
+                else:
+                    msg.append('%s %s sold %d' % (menu_item_name, unit, weeksold))
             else:
-                msg.append('%d %s %s sold %d remain %d' % (number, menu_item_name, unit, weeksold, inventory))
+                if unit == None:
+                    msg.append('%s sold %d' % (menu_item_name, weeksold))
+                else:
+                    msg.append('%s %s sold %d' % (menu_item_name, unit, weeksold))
         with conn.cursor() as cursor:
             sql = "update inventory join menu on inventory.in_id = menu.in_id set inventory=%s where menu.mid = %s"
             cursor.execute(sql, (inventory, mid))
             conn.commit()
+    conn.close()
     message = '\n'.join(msg)
     return message
-    conn.close()
-
-
-# def text():
-#     msg = []
-#     msg.append('%s to %s' % ((datetime.datetime.now() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'), datetime.datetime.now().strftime('%Y-%m-%d')))
-#     items = getItem()
-#     for menu_item_name, unit in items:
-#         countResult = countItems(menu_item_name, unit)
-#         for total, itemName, itemUnit in countResult:
-#             if total != 0:
-#                 if unit == None:
-#                     msg.append('%s total sold: %d' % (itemName, total))
-#                 else:
-#                     msg.append('%s - %s total sold: %d' % (itemName, unit, total))
-#             else:
-#                 msg.append('%s total sold: %d' % (menu_item_name, total))
-#     message = '\n'.join(msg)
-#     return message
 
 def main():
     # cal()
     message = cal()
     print(message)
-    # send_msg(message)
+    send_msg(message)
 if __name__ == "__main__":
     main()
