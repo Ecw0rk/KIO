@@ -17,8 +17,8 @@ def get_token():
 def send_msg(msg):
     # input msg need to change str()
     url = sendMsg + get_token()
-    # 填写接收人可以使用,分隔
-    values = """{"touser" : "ChenJiaYu",
+    # 填写接收人@all发给所有人，如果你只想发给组内账号为zhangsan的人，这里就填写zhangsan，如果是zhangsan和lisi,那么就写 zhangsan|lisi
+    values = """{"touser" : "ChenJiaYu|LaoPanNiang", 
       "msgtype":"text",
       "agentid":"1000002",
       "text":{
@@ -36,7 +36,7 @@ def getItem():
                                  db='inventory')
     try:
         with conn.cursor() as cursor:
-            sql = "select mid, menu_item_name, unit, in_id, show_remain from menu"
+            sql = "select mid, menu_item_name, unit, in_id, show_remain, in_count from menu"
             # sql = "select menu_item_name, unit, inventory, mid from menu join inventory on menu.in_id = inventory.in_id"
             cursor.execute(sql)
             result = cursor.fetchall()
@@ -54,7 +54,7 @@ def searchInventory(in_id):
                                  db='inventory')
     try:
         with conn.cursor() as cursor:
-            sql = "select inventory from inventory where in_id = %s"
+            sql = "select inventory, item from inventory where in_id = %s"
             cursor.execute(sql, (in_id))
             result = cursor.fetchall()
             return result
@@ -107,38 +107,41 @@ def cal():
                                  password='eric20000',
                                  db='inventory')
     items = getItem()
-    for mid, menu_item_name, unit, in_id, show_remain in items:
-        inventory = searchInventory(in_id)[0][0]
-        weeksold = countItems(menu_item_name, unit)[0][0]
-        inventory = inventory - weeksold
-        if show_remain == 1:    # if show_remain equal 1, will show inventory.
-            if weeksold != 0:
-                if unit == None:
-                    msg.append('%s sold %d remain %d' % (menu_item_name, weeksold, inventory))
+    for mid, menu_item_name, unit, in_id, show_remain, in_count in items:
+        # inventory = searchInventory(in_id)[0][0]
+        for inventory, item in searchInventory(in_id):
+            weeksold = countItems(menu_item_name, unit)[0][0]
+            inventory = inventory - weeksold * in_count
+            if show_remain == 1:    # show_remain等于0只显示卖出数量,等于1显示卖出数量和库存数量,等于2什么都不显示,等于3只显示库存名称和数量
+                if weeksold != 0:
+                    if unit == None:
+                        msg.append('%s sold %d remain: %d' % (menu_item_name, weeksold, inventory))
+                    else:
+                        msg.append('%s %s sold %d remain: %d' % ( menu_item_name, unit, weeksold, inventory))
                 else:
-                    msg.append('%s %s sold %d remain %d' % ( menu_item_name, unit, weeksold, inventory))
-            else:
-                if unit == None:
-                    msg.append('%s sold %d remain %d' % ( menu_item_name, weeksold, inventory))
+                    if unit == None:
+                        msg.append('%s sold %d remain: %d' % ( menu_item_name, weeksold, inventory))
+                    else:
+                        msg.append('%s %s sold %d remain: %d' % (menu_item_name, unit, weeksold, inventory))
+            elif show_remain == 0:
+                if weeksold != 0:
+                    if unit == None:
+                        msg.append('%s sold %d' % (menu_item_name, weeksold))
+                    else:
+                        msg.append('%s %s sold %d' % (menu_item_name, unit, weeksold))
                 else:
-                    msg.append('%s %s sold %d remain %d' % (menu_item_name, unit, weeksold, inventory))
-        else:
-            if weeksold != 0:
-                if unit == None:
-                    msg.append('%s sold %d' % (menu_item_name, weeksold))
-                else:
-                    msg.append('%s %s sold %d' % (menu_item_name, unit, weeksold))
-            else:
-                if unit == None:
-                    msg.append('%s sold %d' % (menu_item_name, weeksold))
-                else:
-                    msg.append('%s %s sold %d' % (menu_item_name, unit, weeksold))
-        with conn.cursor() as cursor:
-            sql = "update inventory join menu on inventory.in_id = menu.in_id set inventory=%s where menu.mid = %s"
-            cursor.execute(sql, (inventory, mid))
-            conn.commit()
+                    if unit == None:
+                        msg.append('%s sold %d' % (menu_item_name, weeksold))
+                    else:
+                        msg.append('%s %s sold %d' % (menu_item_name, unit, weeksold))
+            elif show_remain == 3:
+                msg.append('%s remain: %d' % (item, inventory))
+            with conn.cursor() as cursor:
+                sql = "update inventory join menu on inventory.in_id = menu.in_id set inventory=%s where menu.mid = %s"
+                cursor.execute(sql, (inventory, mid))
+                conn.commit()
     conn.close()
-    message = '\n'.join(msg)
+    message = '\n\n'.join(msg)
     return message
 
 def main():
